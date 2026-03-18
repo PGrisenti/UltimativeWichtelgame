@@ -1,0 +1,44 @@
+import { NextResponse } from 'next/server';
+import { createServerSupabase } from '@/lib/auth';
+
+export async function POST(_: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const supabase = await createServerSupabase();
+  const { data: authData } = await supabase.auth.getUser();
+  const user = authData.user;
+  if (!user) return NextResponse.json({ error: 'Nicht eingeloggt' }, { status: 401 });
+
+  const { data: session } = await supabase.from('sessions').select('*').eq('id', id).single();
+  if (!session) return NextResponse.json({ error: 'Session nicht gefunden' }, { status: 404 });
+  if (session.host_user_id !== user.id) return NextResponse.json({ error: 'Nur der Host' }, { status: 403 });
+
+  const [{ data: assignments }, { data: guesses }] = await Promise.all([
+    supabase.from('session_assignments').select('*').eq('session_id', id),
+    supabase.from('session_guesses').select('*').eq('session_id', id),
+  ]);
+
+  const assignmentMap = new Map<string, string>();
+  for (const row of assignments ?? []) {
+    assignmentMap.set(row.receiver_member_id, row.gifter_member_id);
+  }
+
+  const scores = new Map<string, number>();
+  for (const guess of guesses ?? []) {
+    const correct = assignmentMap.get(guess.target_member_id) === guess.guessed_gifter_member_id;
+    if (correct) {
+      scores.set(guess.guesser_user_id, (scores.get(guess.guesser_user_id) ?? 0) + 1);
+    }
+  }
+
+  await supabase.from('session_scores').delete().eq('session_id', id);
+  if (scores.size > 0) {
+    await supabase.from('session_scores').insert(
+      Array.from(scores.entries()).map(([user_id, score]) => ({ session_id: id, user_id, score })),
+    );
+  }
+
+  const { error } = await supabase.from('sessions').update({ phase: 'revealed', revealed_at: new Date().toISOString() }).eq('id', id);
+  if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+
+  return NextResponse.json({ message: 'Auflösung abgeschlossen' });
+}

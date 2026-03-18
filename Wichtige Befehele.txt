@@ -1,0 +1,18 @@
+Wichtige Befehele:
+1. Reset vom Local host 
+wenn:
+S C:\Users\Mrx18\Desktop\Wichtel> netstat -ano | findstr :3000
+  TCP    0.0.0.0:3000           0.0.0.0:0              ABH?REN         29764
+  TCP    [::]:3000              [::]:0                 ABH?REN         29764
+  TCP    [::1]:3000             [::1]:54390            HERGESTELLT     29764
+  TCP    [::1]:54390            [::1]:3000             HERGESTELLT     10308
+PS C:\Users\Mrx18\Desktop\Wichtel> 
+
+Dann lautet befehl: LISTENING 29764
+
+Local Host straten: npm run dev
+
+Projekt Synchronisieren: git add . && git commit -m "Update" && git push
+prüfen ob Synchronisiert wurde: git status
+
+Auf dem Neustend stand bringen: git pull
