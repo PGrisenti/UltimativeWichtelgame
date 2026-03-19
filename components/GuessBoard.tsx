@@ -65,7 +65,7 @@ export default function GuessBoard({
       <div className="stack">
         {members.map((member) => (
           <div key={member.id}>
-            <label>Wer hat {member.username} bewichtelt?</label>
+            <label>Wer hat {member.username} beschenkt?</label>
             <select
               value={values[member.id] ?? ''}
               onChange={(e) => setValues((prev) => ({ ...prev, [member.id]: e.target.value }))}
