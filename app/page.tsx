@@ -17,8 +17,13 @@ export default async function HomePage() {
           <span className="badge">Wichtelwebseite</span>
           <h1>Einloggen, Session erstellen, auslosen und den Gewinner küren.</h1>
           <p>
-            Diese Vorlage enthält Login mit E-Mail + Benutzername, Host-Rechte,
-            Phasensteuerung, Ratephase, Auflösung und Session-Löschung.
+            Diese Wichtelwebsetie ist eine digitale Plattform zur Organisation von Wichtelaktionen. 
+            Nutzer*Innen können eigene Sessions erstellen, andere Personen per Link einladen und das 
+            gesamte Spiel strukturiert in mehrere Phasen durchführen, von Auslosung bis Auflösung und 
+            Auswertung der Tipps.
+            Die Webseite wurde aus einer spontanen Idee und aus Langeweile heraus entwickelt, mit dem Ziel,
+            den Wichtelprozess einfacher, übersichtlicher und interaktiver zu gestalten. 
+            Viel Spass beim Spielen!
           </p>
           <div className="notice small">
             Nach der Registrierung bestätigt Supabase die E-Mail. Danach kannst du dich einloggen und loslegen.
