@@ -26,6 +26,7 @@ export default async function HomePage() {
             Viel Spass beim Spielen!
           </p>
           <div className="notice small">
+            Speichere dein Passwort, denn es ist keine Account wiederherstellung möglich!
             Nach der Registrierung bestätigt Supabase die E-Mail. Danach kannst du dich einloggen und loslegen.
           </div>
         </div>
